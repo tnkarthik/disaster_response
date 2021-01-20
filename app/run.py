@@ -47,7 +47,7 @@ def tokenize(text):
     text = [WordNetLemmatizer().lemmatize(x, pos = 'v') for x in text]
 
     return text
-    
+
 app = Flask(__name__)
 
 
@@ -56,7 +56,7 @@ engine = create_engine('sqlite:///../data/DisasterResponse.db')
 df = pd.read_sql_table('disaster_response', engine)
 
 # load model
-model = joblib.load("../models/optimized_rf_classifier.pkl")
+model = joblib.load("../models/classifier.pkl")
 
 
 # index webpage displays cool visuals and receives user input text for model
@@ -68,6 +68,7 @@ def index():
     # TODO: Below is an example - modify to extract data for your own visuals
     genre_counts = df.groupby('genre').count()['message']
     genre_names = list(genre_counts.index)
+
 
     # create visuals
     # TODO: Below is an example - modify to create your own visuals

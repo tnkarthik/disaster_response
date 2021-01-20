@@ -88,13 +88,33 @@ def build_model():
     #stop_words = [tokenize(i) for i in stopwords.words('english')]
     pipeline = Pipeline([("tfidf",TfidfVectorizer(tokenizer = tokenize, stop_words = None)), \
                 ("estimator", estimator)])
-    param_grid = {'estimator__estimator__n_estimators': range(100,150,100), \
-                  'estimator__estimator__max_depth': range(200,501,100)}
+    param_grid = {'estimator__estimator__n_estimators': range(400,499,100), \
+                  'estimator__estimator__max_depth': range(400,499,100)}
 
     model = GridSearchCV(pipeline, param_grid = param_grid, cv = 3, verbose = 5, n_jobs = 1)
     #print(model.get_params().keys())
     return model
 
+def round_list(x, n = 2):
+    """Auxiliary function to round elements of a list to n decimal places.
+
+    Parameters
+    ----------
+    x : list
+        List of float values.
+    n : int
+        Number of decmial places to round the elements of list.
+
+    Returns
+    -------
+    list
+        List with elements rounded to n decimal places.
+
+    """
+    try:
+        return [round(i,n) for i in x]
+    except:
+        return x
 
 def evaluate_model(model, X_test, Y_test, category_names):
     """Function to evaluate model predictions on the test set and print classification metrics.
@@ -104,9 +124,9 @@ def evaluate_model(model, X_test, Y_test, category_names):
     model : sklearn model
         sklearn classification model trained on the training set.
     X_test : np.array
-        Features for the test set.
+        Test set features.
     Y_test : np.array
-        Targets for the test set.
+        Test set targets.
     category_names : list
         List of category names for each target.
 
@@ -122,9 +142,14 @@ def evaluate_model(model, X_test, Y_test, category_names):
         precision = precision_score(Y_test, Y_model, average = None)
         recall = recall_score(Y_test, Y_model, average = None)
 
-        print("Category wise F1_score: {0}".format(list(zip(category_names[1:], f1_scores))))
-        print("Category wise Precision: {0}".format(list(zip(category_names[1:], precision))))
-        print("Category wise Recall: {0}".format(list(zip(category_names[1:], recall))))
+        print("Category wise F1_score: {0}".\
+        format(list(zip(category_names, round_list(f1_scores)))))
+
+        print("Category wise Precision: {0}".\
+        format(list(zip(category_names, round_list(precision)))))
+
+        print("Category wise Recall: {0}".\
+        format(list(zip(category_names, round_list(recall)))))
 
     except Exception as e:
         print("Failed with exception {0}".format(e))

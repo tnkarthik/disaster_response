@@ -73,6 +73,11 @@ def tokenize(text):
 
     return text
 
+def round_list(x, n = 2):
+    try:
+        return [round(i,n) for i in x]
+    except:
+        return x
 
 def evaluate_model(model, X_test, Y_test, category_names):
     """Short summary.
@@ -103,10 +108,15 @@ def evaluate_model(model, X_test, Y_test, category_names):
         precision = precision_score(Y_test[:,1:], Y_model[:,1:], average = None)
         recall = recall_score(Y_test[:,1:], Y_model[:,1:], average = None)
 
-        print("Category wise F1_score: {0}".format(list(zip(category_names[1:], f1_scores))))
-        print("Category wise Precision: {0}".format(list(zip(category_names[1:], precision))))
-        print("Category wise Recall: {0}".format(list(zip(category_names[1:], recall))))
-        
+        print("Category wise F1_score: {0}".\
+        format(list(zip(category_names[1:], round_list(f1_scores)))))
+
+        print("Category wise Precision: {0}".\
+        format(list(zip(category_names[1:], round_list(precision)))))
+
+        print("Category wise Recall: {0}".\
+        format(list(zip(category_names[1:], round_list(recall)))))
+
     except Exception as e:
         print("Failed with exception {0}".format(e))
 
@@ -120,6 +130,7 @@ def main():
 
         print('Building model...')
         model = joblib.load(model_filepath)
+        print(model.best_params_)
 
         print('Evaluating model...')
         evaluate_model(model, X, Y, category_names)

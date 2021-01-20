@@ -119,7 +119,7 @@ def evaluate_model(model, X_test, Y_test, category_names):
     Y_model = model.predict(X_test)
     print(Y_model[:,0:5])
     try:
-        print(f1_score(Y_test[:,0], Y_model[:,0]))
+        print(f1_score(Y_test[:,0], Y_model[:,0], average = 'weighted'))
     except Exception as e:
         print("Failed with exception {0}".format(e))
 

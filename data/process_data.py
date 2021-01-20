@@ -59,6 +59,15 @@ def clean_data(df):
     #### Modify original dataframe with categories columns
     df = df.drop(columns = ['categories'])
     df_out = pd.concat([df, categories], axis = 1)
+    df_out = df_out.drop_duplicates()
+
+    #### Additional transformation to change some of the values in the related
+    #### category that are coded as 2 to 1. There are 193 such entries.
+    #### I am assuming the related category means if there are any related
+    #### previous messages or if the message is a new message that needs to be
+    #### acted upon. So coding anything >1 as 1 makes sense in this case.
+
+    df_out['related'] = df_out['related'].apply(lambda x: 1 if x > 0 else 0)
 
     return df_out
 

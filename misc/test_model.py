@@ -73,65 +73,42 @@ def tokenize(text):
 
     return text
 
-def build_model():
-    """Build the ML model.
-
-    Returns
-    -------
-    model
-        sklearn multioutput classifer model.
-
-    """
-    base_model = RandomForestClassifier(n_estimators = 100, max_depth = 200)
-    estimator = MultiOutputClassifier(base_model)
-
-    #stop_words = [tokenize(i) for i in stopwords.words('english')]
-    pipeline = Pipeline([("tfidf",TfidfVectorizer(tokenizer = tokenize, stop_words = None)), \
-                ("estimator", estimator)])
-    param_grid = {'estimator__estimator__n_estimators': range(100,150,100), \
-                  'estimator__estimator__max_depth': range(200,501,100)}
-
-    model = GridSearchCV(pipeline, param_grid = param_grid, cv = 3, verbose = 5, n_jobs = 1)
-    #print(model.get_params().keys())
-    return model
-
 
 def evaluate_model(model, X_test, Y_test, category_names):
-    """Function to evaluate model predictions on the test set and print classification metrics.
+    """Short summary.
 
     Parameters
     ----------
-    model : sklearn model
-        sklearn classification model trained on the training set.
-    X_test : np.array
-        Features for the test set.
-    Y_test : np.array
-        Targets for the test set.
-    category_names : list
-        List of category names for each target.
+    model : type
+        Description of parameter `model`.
+    X_test : type
+        Description of parameter `X_test`.
+    Y_test : type
+        Description of parameter `Y_test`.
+    category_names : type
+        Description of parameter `category_names`.
 
     Returns
     -------
-    None
+    type
+        Description of returned object.
 
     """
     Y_model = model.predict(X_test)
+    print('Calculating F1-scores.......')
 
     try:
-        f1_scores = f1_score(Y_test, Y_model, average = None)
-        precision = precision_score(Y_test, Y_model, average = None)
-        recall = recall_score(Y_test, Y_model, average = None)
+
+        f1_scores = f1_score(Y_test[:,1:], Y_model[:,1:], average = None)
+        precision = precision_score(Y_test[:,1:], Y_model[:,1:], average = None)
+        recall = recall_score(Y_test[:,1:], Y_model[:,1:], average = None)
 
         print("Category wise F1_score: {0}".format(list(zip(category_names[1:], f1_scores))))
         print("Category wise Precision: {0}".format(list(zip(category_names[1:], precision))))
         print("Category wise Recall: {0}".format(list(zip(category_names[1:], recall))))
-
+        
     except Exception as e:
         print("Failed with exception {0}".format(e))
-
-
-def save_model(model, model_filepath):
-    joblib.dump(model, model_filepath)
 
 
 def main():
@@ -139,27 +116,19 @@ def main():
         database_filepath, model_filepath = sys.argv[1:]
         print('Loading data...\n    DATABASE: {}'.format(database_filepath))
         X, Y, category_names = load_data(database_filepath)
-        X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2)
+        #X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2)
 
         print('Building model...')
-        model = build_model()
-
-        print('Training model...')
-        model.fit(X_train, Y_train)
+        model = joblib.load(model_filepath)
 
         print('Evaluating model...')
-        evaluate_model(model, X_test, Y_test, category_names)
-
-        print('Saving model...\n    MODEL: {}'.format(model_filepath))
-        save_model(model, model_filepath)
-
-        print('Trained model saved!')
+        evaluate_model(model, X, Y, category_names)
 
     else:
         print('Please provide the filepath of the disaster messages database '\
               'as the first argument and the filepath of the pickle file to '\
               'save the model to as the second argument. \n\nExample: python '\
-              'train_classifier.py ../data/DisasterResponse.db classifier.pkl')
+              'test_model.py ../data/DisasterResponse.db ../models/optimized_rf_classifier.pkl')
 
 
 if __name__ == '__main__':

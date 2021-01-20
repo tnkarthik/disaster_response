@@ -30,4 +30,4 @@
       ```
     The app can be accessed via http://127.0.0.1:3001/
 
-For any feedback and questions please contact me at:
+For any feedback and questions please contact me on github.

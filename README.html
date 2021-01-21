@@ -582,16 +582,18 @@ pre.editor-colors .fold-marker:after {
 }
 </style>
         </head>
-        <body class='markdown-preview' data-use-github-style><h1 id="disaster-response-pipeline-project">Disaster Response Pipeline Project</h1>
-<h3 id="this-project-is-part-of-the-udacity-data-science-nanodegree-program">This project is part of the Udacity Data Science Nanodegree program</h3>
-<h3 id="instructions">Instructions:</h3>
+        <body class='markdown-preview' data-use-github-style><h1 id="disaster-response-pipeline-project">Disaster Response Pipeline Project.</h1>
+<h3 id="categorizing-disaster-messages-using-machine-learning-for-efficient-response">Categorizing disaster messages using Machine Learning for efficient response</h3>
+<p> The goal of this project is to classify incoming disaster messages to be routed to the relevant agencies. During an active disaster there are many messages that come in and timely routing is very essential for saving lives. This project uses an ETL pipeline using pandas to read and store the messages and a ML pipeline using scikit-learn to classify the disaster messages correctly. This project is part of the Udacity Data Science Nanodegree program. </p>
+
+<h3 id="instructions-to-generate-ml-model-and-run-the-app">Instructions to generate ML model and run the app:</h3>
 <ol>
-<li><p>To be able to use the app first you need to run the ETL and ML pipelines.</p>
+<li><p>To be able to use the app first you need to run the ETL and ML pipelines. The ML model pkl file is not provided in the project's github</p>
 </li>
 <li><p>The ETL pipeline reads the disaster messages from the ./data folder and stores the result into a database.</p>
 <ul>
 <li><p>To run ETL pipeline please type the following on the command line from the project root directory</p>
-<p>  <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">python data/process_data.py data/disaster_messages.csv data/disaster_categories.csv data/DisasterResponse.db</code></p>
+<pre class="editor-colors lang-bash"><div class="line"><span class="leading-whitespace">  </span><span class="syntax--source syntax--shell"><span class="syntax--entity syntax--name syntax--function"><span class="syntax--punctuation syntax--section syntax--embedded">$</span> <span class="syntax--variable syntax--other syntax--member">python</span></span> data/process_data.py data/disaster_messages.csv data/disaster_categories.csv data/DisasterResponse.db</span></div></pre>
 <p>The above call will create a DisasterResponse.db database in the data folder</p>
 </li>
 </ul>
@@ -599,14 +601,24 @@ pre.editor-colors .fold-marker:after {
 <li><p>The ML pipeline creates and trains a ML model on the dataset and stores the model as a pkl file in the models folder.</p>
 <ul>
 <li><p>To run ML pipeline please type the following on the command line from the project root directory</p>
-<p><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">python models/train_classifier.py data/DisasterResponse.db models/classifier.pkl</code></p>
+<pre class="editor-colors lang-bash"><div class="line"><span class="leading-whitespace">  </span><span class="syntax--source syntax--shell"><span class="syntax--entity syntax--name syntax--function"><span class="syntax--punctuation syntax--section syntax--embedded">$</span> <span class="syntax--variable syntax--other syntax--member">python</span></span> models/train_classifier.py data/DisasterResponse.db models/classifier.pkl</span></div></pre>
 <p>The above call will save a classifier.pkl model in the models folder which will be used by the flask app</p>
 </li>
 </ul>
 </li>
-<li><p>To run the app please type the following command in the app's directory.
- <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">python run.py</code>
- The app can be accessed via <a href="http://127.0.0.1:3001/">http://127.0.0.1:3001/</a></p>
+<li><p>The package includes an app created using plotly and flask to characterize new messages</p>
+<ul>
+<li><p>To run the app please type the following command in the app's directory</p>
+<pre class="editor-colors lang-bash"><div class="line"><span class="leading-whitespace">  </span><span class="syntax--source syntax--shell"><span class="syntax--entity syntax--name syntax--function"><span class="syntax--punctuation syntax--section syntax--embedded">$</span> <span class="syntax--variable syntax--other syntax--member">python</span></span> run.py</span></div></pre>
+<p>The app can be accessed via <a href="http://127.0.0.1:3001/">http://127.0.0.1:3001/</a></p>
 </li>
+</ul>
+</li>
+<li><p>Here is the overall structure and description of the files in the Project</p>
+<pre class="editor-colors lang-bash"><div class="line"><span class="syntax--source syntax--shell"><span class="syntax--entity syntax--name syntax--function">app</span> <span class="syntax--comment syntax--block">#### folder with the app files</span></span></div><div class="line"><span class="syntax--source syntax--shell"><span class="syntax--entity syntax--name syntax--function"></span><span class="syntax--keyword syntax--operator">|</span> <span class="syntax--entity syntax--name syntax--function">-</span> templates</span></div><div class="line"><span class="syntax--source syntax--shell"><span class="syntax--keyword syntax--operator">|</span> <span class="syntax--keyword syntax--operator">|</span><span class="syntax--entity syntax--name syntax--function">-</span> master.html <span class="syntax--comment syntax--block">#### main page of web app</span></span></div><div class="line"><span class="syntax--source syntax--shell"><span class="syntax--keyword syntax--operator">|</span> <span class="syntax--keyword syntax--operator">|</span><span class="syntax--entity syntax--name syntax--function">-</span> go.html <span class="syntax--comment syntax--block">#### classification result page of web app</span></span></div><div class="line"><span class="syntax--source syntax--shell"><span class="syntax--entity syntax--name syntax--function"></span><span class="syntax--keyword syntax--operator">|</span><span class="syntax--entity syntax--name syntax--function">-</span> run.py <span class="syntax--comment syntax--block">#### Flask file that runs app</span></span></div><div class="line"><span class="syntax--source syntax--shell"><span class="syntax--entity syntax--name syntax--function">data</span> <span class="syntax--comment syntax--block"># Folder with the raw data and the database</span></span></div><div class="line"><span class="syntax--source syntax--shell"><span class="syntax--entity syntax--name syntax--function"></span><span class="syntax--keyword syntax--operator">|</span><span class="syntax--entity syntax--name syntax--function">-</span> disaster_categories.csv <span class="syntax--comment syntax--block">#### csv file with the categories for each msg</span></span></div><div class="line"><span class="syntax--source syntax--shell"><span class="syntax--entity syntax--name syntax--function"></span><span class="syntax--keyword syntax--operator">|</span><span class="syntax--entity syntax--name syntax--function">-</span> disaster_messages.csv <span class="syntax--comment syntax--block">#### csv file with the msg</span></span></div><div class="line"><span class="syntax--source syntax--shell"><span class="syntax--entity syntax--name syntax--function"></span><span class="syntax--keyword syntax--operator">|</span><span class="syntax--entity syntax--name syntax--function">-</span> process_data.py <span class="syntax--comment syntax--block">#### python script to process csv files and save to database</span></span></div><div class="line"><span class="syntax--source syntax--shell"><span class="syntax--entity syntax--name syntax--function"></span><span class="syntax--keyword syntax--operator">|</span><span class="syntax--entity syntax--name syntax--function">-</span> DisasterResponse.db <span class="syntax--comment syntax--block">#### database to save clean data to</span></span></div><div class="line"><span class="syntax--source syntax--shell"><span class="syntax--entity syntax--name syntax--function">models</span></span></div><div class="line"><span class="syntax--source syntax--shell"><span class="syntax--entity syntax--name syntax--function"></span><span class="syntax--keyword syntax--operator">|</span><span class="syntax--entity syntax--name syntax--function">-</span> train_classifier.py <span class="syntax--comment syntax--block">#### python code to build and train the ML model</span></span></div><div class="line"><span class="syntax--source syntax--shell"><span class="syntax--entity syntax--name syntax--function"></span><span class="syntax--keyword syntax--operator">|</span><span class="syntax--entity syntax--name syntax--function">-</span> classifier.pkl <span class="syntax--comment syntax--block"># saved model</span></span></div><div class="line"><span class="syntax--source syntax--shell"><span class="syntax--entity syntax--name syntax--function">README.md</span></span></div><div class="line"><span class="syntax--source syntax--shell"><span class="syntax--entity syntax--name syntax--function">README.html</span></span></div><div class="line"><span class="syntax--source syntax--shell"><span class="syntax--entity syntax--name syntax--function">docs</span> <span class="syntax--comment syntax--block">#### folder with documentation for the functions made using sphinx</span></span></div><div class="line"><span class="syntax--source syntax--shell"><span class="syntax--entity syntax--name syntax--function">misc</span> <span class="syntax--comment syntax--block">#### folder with other miscallaneous python codes to run adhoc analyses</span></span></div></pre>
+</li>
+</ol>
+<ol start="6">
+<li>For any feedback and questions please contact me on github.</li>
 </ol></body>
       </html>

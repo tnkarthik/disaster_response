@@ -10,7 +10,7 @@ import re
 from sklearn.model_selection import GridSearchCV, train_test_split
 from sklearn.multioutput import MultiOutputClassifier
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import f1_score, precision_score, recall_score
+from sklearn.metrics import f1_score, precision_score, recall_score, classification_report
 import joblib
 from sklearn.pipeline import Pipeline
 
@@ -138,18 +138,10 @@ def evaluate_model(model, X_test, Y_test, category_names):
     Y_model = model.predict(X_test)
 
     try:
-        f1_scores = f1_score(Y_test, Y_model, average = None)
-        precision = precision_score(Y_test, Y_model, average = None)
-        recall = recall_score(Y_test, Y_model, average = None)
-
-        print("Category wise F1_score: {0}".\
-        format(list(zip(category_names, round_list(f1_scores)))))
-
-        print("Category wise Precision: {0}".\
-        format(list(zip(category_names, round_list(precision)))))
-
-        print("Category wise Recall: {0}".\
-        format(list(zip(category_names, round_list(recall)))))
+        for i,category in enumerate(category_names):
+            print("##############")
+            print("classification report for category {0}".format(category))
+            print(classification_report(Y_test[:,i], Y_model[:,i]))
 
     except Exception as e:
         print("Failed with exception {0}".format(e))

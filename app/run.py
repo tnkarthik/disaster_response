@@ -7,7 +7,7 @@ from nltk.tokenize import word_tokenize
 
 from flask import Flask
 from flask import render_template, request, jsonify
-from plotly.graph_objs import Bar
+from plotly.graph_objs import Bar, Histogram
 import joblib
 from sqlalchemy import create_engine
 from collections import OrderedDict
@@ -69,6 +69,11 @@ def index():
     genre_counts = df.groupby('genre').count()['message']
     genre_names = list(genre_counts.index)
 
+    char_counts = df['message'].apply(lambda x: len(x))
+    word_counts = df['message'].apply(lambda x: len(x.split()))
+
+    category_counts = df.drop(columns = ['id', 'message', 'original', 'genre']).sum(axis = 0)
+
 
     # create visuals
     # TODO: Below is an example - modify to create your own visuals
@@ -90,7 +95,68 @@ def index():
                     'title': "Genre"
                 }
             }
+        },
+
+        {
+            'data': [
+                Histogram(
+                    x=char_counts
+                )
+            ],
+
+            'layout': {
+                'title': 'Distribution of Message Character Counts',
+                'yaxis': {
+                    'title': "Count"
+                },
+                'xaxis': {
+                    'title': "# of characters in the message"
+                }
+            }
+        },
+
+        {
+            'data': [
+                Histogram(
+                    x=word_counts
+                )
+            ],
+
+            'layout': {
+                'title': 'Distribution of Word Counts in Messages',
+                'yaxis': {
+                    'title': "Count"
+                },
+                'xaxis': {
+                    'title': "# of words in message",
+                    'tickangle': 45,
+                    'title_standoff': 45
+                }
+            }
+        },
+
+
+        {
+            'data': [
+                Bar(
+                    x=category_counts.index,
+                    y=category_counts.values
+                )
+            ],
+
+            'layout': {
+                'title': 'Distribution of Message Categories',
+                'yaxis': {
+                    'title': "Count"
+                },
+                'xaxis': {
+                    'title': "Category",
+                    'tickangle': 45,
+                    'title_standoff': 1000
+                }
+            }
         }
+
     ]
 
     # encode plotly graphs in JSON

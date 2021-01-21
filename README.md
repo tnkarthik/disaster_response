@@ -10,7 +10,7 @@
     - To run ETL pipeline please type the following on the command line from the project root directory
 
         ```
-        $python data/process_data.py data/disaster_messages.csv data/disaster_categories.csv data/DisasterResponse.db
+        $ python data/process_data.py data/disaster_messages.csv data/disaster_categories.csv data/DisasterResponse.db
         ```
 
     The above call will create a DisasterResponse.db database in the data folder
@@ -18,16 +18,19 @@
 3. The ML pipeline creates and trains a ML model on the dataset and stores the model as a pkl file in the models folder.
     - To run ML pipeline please type the following on the command line from the project root directory
 
-      ```
-      $python models/train_classifier.py data/DisasterResponse.db models/classifier.pkl
-      ```
+        ```
+        $ python models/train_classifier.py data/DisasterResponse.db models/classifier.pkl
+        ```
 
     The above call will save a classifier.pkl model in the models folder which will be used by the flask app
 
-4. To run the app please type the following command in the app's directory.
-      ```
-      $python run.py
-      ```
+4. The package includes an app created using plotly and flask to characterize new messages
+    - To run the app please type the following command in the app's directory
+
+        ```
+        $ python run.py
+        ```
+
     The app can be accessed via http://127.0.0.1:3001/
 
 For any feedback and questions please contact me on github.
